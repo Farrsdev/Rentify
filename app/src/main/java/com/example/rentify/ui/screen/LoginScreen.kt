@@ -37,7 +37,7 @@ fun LoginScreen(
     var passwordVisible by remember { mutableStateOf(false) }
 
     val gradient = Brush.verticalGradient(
-        colors = listOf(Color(0xFF1E1E2C), Color(0xFF0F0F1A))
+        colors = listOf(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.colorScheme.background)
     )
 
     Box(
@@ -51,7 +51,7 @@ fun LoginScreen(
                 .fillMaxWidth(0.9f)
                 .padding(16.dp),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF252538))
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Column(
                 modifier = Modifier
@@ -63,14 +63,14 @@ fun LoginScreen(
                     text = "Rentify",
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF818CF8),
+                    color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center
                 )
                 
                 Text(
                     text = "Peminjaman Game & Aplikasi",
                     fontSize = 14.sp,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 4.dp, bottom = 24.dp),
                     textAlign = TextAlign.Center
                 )
@@ -78,13 +78,13 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = username,
                     onValueChange = { username = it },
-                    label = { Text("Username", color = Color.Gray) },
-                    leadingIcon = { Icon(Icons.Default.Person, contentDescription = "User", tint = Color(0xFF818CF8)) },
+                    label = { Text("Username", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                    leadingIcon = { Icon(Icons.Default.Person, contentDescription = "User", tint = MaterialTheme.colorScheme.primary) },
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFF818CF8),
-                        unfocusedBorderColor = Color.DarkGray,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onBackground
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
@@ -95,21 +95,21 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Password", color = Color.Gray) },
-                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Lock", tint = Color(0xFF818CF8)) },
+                    label = { Text("Password", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Lock", tint = MaterialTheme.colorScheme.primary) },
                     trailingIcon = {
                         val image = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Icon(image, contentDescription = "Toggle password visibility", tint = Color.Gray)
+                            Icon(image, contentDescription = "Toggle password visibility", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     },
                     visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFF818CF8),
-                        unfocusedBorderColor = Color.DarkGray,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onBackground
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp)
@@ -127,9 +127,9 @@ fun LoginScreen(
                         .fillMaxWidth()
                         .height(50.dp),
                     shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6366F1))
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                 ) {
-                    Text("Masuk", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("Masuk", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -137,7 +137,7 @@ fun LoginScreen(
                 TextButton(onClick = onNavigateToRegister) {
                     Text(
                         text = "Belum punya akun? Registrasi Pembeli",
-                        color = Color(0xFF818CF8),
+                        color = MaterialTheme.colorScheme.primary,
                         fontSize = 14.sp
                     )
                 }

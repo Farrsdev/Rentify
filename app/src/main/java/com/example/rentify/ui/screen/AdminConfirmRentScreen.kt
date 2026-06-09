@@ -42,16 +42,16 @@ fun AdminConfirmRentScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Konfirmasi Peminjaman", fontWeight = FontWeight.Bold, color = Color.White) },
+                title = { Text("Konfirmasi Peminjaman", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali", tint = Color.White)
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali", tint = MaterialTheme.colorScheme.onSurface)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF1E1E2D))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface, titleContentColor = MaterialTheme.colorScheme.onSurface, actionIconContentColor = MaterialTheme.colorScheme.onSurface)
             )
         },
-        containerColor = Color(0xFF0F0F1A),
+        containerColor = MaterialTheme.colorScheme.background,
         modifier = modifier
     ) { paddingValues ->
         Box(
@@ -65,7 +65,7 @@ fun AdminConfirmRentScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Belum ada transaksi peminjaman.", color = Color.Gray)
+                    Text("Belum ada transaksi peminjaman.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             } else {
                 LazyColumn(
@@ -73,7 +73,7 @@ fun AdminConfirmRentScreen(
                 ) {
                     items(transactions, key = { it.id }) { tx ->
                         Card(
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF252538)),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                             shape = RoundedCornerShape(16.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -92,12 +92,12 @@ fun AdminConfirmRentScreen(
                                             text = tx.username,
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 16.sp,
-                                            color = Color.White
+                                            color = MaterialTheme.colorScheme.onSurface
                                         )
                                         Text(
                                             text = dateFormat.format(Date(tx.rentDate)),
                                             fontSize = 11.sp,
-                                            color = Color.Gray
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
 
@@ -115,7 +115,7 @@ fun AdminConfirmRentScreen(
                                     }
                                 }
 
-                                Divider(color = Color.DarkGray, modifier = Modifier.padding(vertical = 12.dp))
+                                HorizontalDivider(color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(vertical = 12.dp))
 
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -140,12 +140,12 @@ fun AdminConfirmRentScreen(
                                             text = tx.productTitle,
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 16.sp,
-                                            color = Color.White
+                                            color = MaterialTheme.colorScheme.onSurface
                                         )
                                         Text(
                                             text = "Durasi sewa: ${tx.rentDays} Hari",
                                             fontSize = 13.sp,
-                                            color = Color.LightGray
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
 
@@ -155,13 +155,13 @@ fun AdminConfirmRentScreen(
                                         Text(
                                             text = "Total Bayar",
                                             fontSize = 11.sp,
-                                            color = Color.Gray
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                         Text(
                                             text = numberFormat.format(tx.totalPrice),
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 16.sp,
-                                            color = Color(0xFF818CF8)
+                                            color = MaterialTheme.colorScheme.primary
                                         )
                                     }
                                 }
@@ -174,9 +174,9 @@ fun AdminConfirmRentScreen(
                                         shape = RoundedCornerShape(12.dp),
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        Icon(Icons.Default.Check, contentDescription = "Konfirmasi", tint = Color.White)
+                                        Icon(Icons.Default.Check, contentDescription = "Konfirmasi", tint = MaterialTheme.colorScheme.onSurface)
                                         Spacer(modifier = Modifier.width(8.dp))
-                                        Text("Setujui Peminjaman", fontWeight = FontWeight.Bold, color = Color.White)
+                                        Text("Setujui Peminjaman", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                                     }
                                 }
                             }

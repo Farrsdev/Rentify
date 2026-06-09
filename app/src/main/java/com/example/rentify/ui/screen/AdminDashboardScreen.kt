@@ -1,4 +1,4 @@
-﻿package com.example.rentify.ui.screen
+package com.example.rentify.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -36,6 +36,7 @@ fun AdminDashboardScreen(
     
     var showDialog by remember { mutableStateOf(false) }
     var editingProduct by remember { mutableStateOf<ProductEntity?>(null) }
+    var productToDelete by remember { mutableStateOf<ProductEntity?>(null) }
     
     var title by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("APP") } // APP or GAME
@@ -50,18 +51,18 @@ fun AdminDashboardScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Rentify Admin", fontWeight = FontWeight.Bold, color = Color.White) },
+                title = { Text("Rentify Admin", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface) },
                 actions = {
                     IconButton(onClick = onNavigateToConfirmRents) {
                         BadgedBox(badge = { }) {
-                            Icon(Icons.Default.ReceiptLong, contentDescription = "Konfirmasi Peminjaman", tint = Color.White)
+                            Icon(Icons.Default.ReceiptLong, contentDescription = "Konfirmasi Peminjaman", tint = MaterialTheme.colorScheme.onSurface)
                         }
                     }
                     IconButton(onClick = { authViewModel.logout(onLogout) }) {
                         Icon(Icons.Default.ExitToApp, contentDescription = "Logout", tint = Color.Red)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF1E1E2D))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface, titleContentColor = MaterialTheme.colorScheme.onSurface, actionIconContentColor = MaterialTheme.colorScheme.onSurface)
             )
         },
         floatingActionButton = {
@@ -74,13 +75,12 @@ fun AdminDashboardScreen(
                     description = ""
                     showDialog = true
                 },
-                containerColor = Color(0xFF6366F1),
-                contentColor = Color.White
+                containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Tambah Produk")
             }
         },
-        containerColor = Color(0xFF0F0F1A),
+        containerColor = MaterialTheme.colorScheme.background,
         modifier = modifier
     ) { paddingValues ->
         Column(
@@ -93,13 +93,13 @@ fun AdminDashboardScreen(
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { productViewModel.setSearchQuery(it) },
-                placeholder = { Text("Cari Aplikasi / Game...", color = Color.Gray) },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Cari", tint = Color.Gray) },
+                placeholder = { Text("Cari Aplikasi / Game...", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Cari", tint = MaterialTheme.colorScheme.onSurfaceVariant) },
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF6366F1),
-                    unfocusedBorderColor = Color.DarkGray,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -112,7 +112,7 @@ fun AdminDashboardScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Belum ada produk. Tambahkan sekarang!", color = Color.Gray)
+                    Text("Belum ada produk. Tambahkan sekarang!", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             } else {
                 LazyColumn(
@@ -120,7 +120,7 @@ fun AdminDashboardScreen(
                 ) {
                     items(products, key = { it.id }) { product ->
                         Card(
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF252538)),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                             shape = RoundedCornerShape(16.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -140,18 +140,18 @@ fun AdminDashboardScreen(
                                             text = product.category,
                                             fontSize = 10.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = Color.White,
+                                            color = MaterialTheme.colorScheme.onSurface,
                                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                                         )
                                     }
-                                    Text(product.title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                                    Text(product.description, fontSize = 12.sp, color = Color.LightGray, maxLines = 2)
+                                    Text(product.title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                                    Text(product.description, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2)
                                     Spacer(modifier = Modifier.height(8.dp))
                                     Text(
                                         "${numberFormat.format(product.pricePerDay)} / Hari",
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = Color(0xFF818CF8)
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                 }
 
@@ -168,7 +168,7 @@ fun AdminDashboardScreen(
                                     ) {
                                         Icon(Icons.Default.Edit, contentDescription = "Ubah", tint = Color.Yellow)
                                     }
-                                    IconButton(onClick = { productViewModel.deleteProduct(product) }) {
+                                    IconButton(onClick = { productToDelete = product }) {
                                         Icon(Icons.Default.Delete, contentDescription = "Hapus", tint = Color.Red)
                                     }
                                 }
@@ -188,10 +188,10 @@ fun AdminDashboardScreen(
                 Text(
                     text = if (editingProduct == null) "Tambah Produk" else "Edit Produk",
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             },
-            containerColor = Color(0xFF252538),
+            containerColor = MaterialTheme.colorScheme.surface,
             text = {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -200,18 +200,18 @@ fun AdminDashboardScreen(
                     OutlinedTextField(
                         value = title,
                         onValueChange = { title = it },
-                        label = { Text("Nama Aplikasi/Game", color = Color.Gray) },
+                        label = { Text("Nama Aplikasi/Game", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFF6366F1),
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
 
                     // Simple Radio-like for Category Selection
                     Column {
-                        Text("Kategori:", fontSize = 12.sp, color = Color.Gray)
+                        Text("Kategori:", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             modifier = Modifier.padding(top = 4.dp)
@@ -220,17 +220,17 @@ fun AdminDashboardScreen(
                                 RadioButton(
                                     selected = category == "APP",
                                     onClick = { category = "APP" },
-                                    colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF6366F1))
+                                    colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary)
                                 )
-                                Text("Aplikasi", color = Color.White)
+                                Text("Aplikasi", color = MaterialTheme.colorScheme.onSurface)
                             }
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 RadioButton(
                                     selected = category == "GAME",
                                     onClick = { category = "GAME" },
-                                    colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF6366F1))
+                                    colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary)
                                 )
-                                Text("Game", color = Color.White)
+                                Text("Game", color = MaterialTheme.colorScheme.onSurface)
                             }
                         }
                     }
@@ -238,11 +238,11 @@ fun AdminDashboardScreen(
                     OutlinedTextField(
                         value = pricePerDay,
                         onValueChange = { pricePerDay = it },
-                        label = { Text("Harga Sewa / Hari (Rp)", color = Color.Gray) },
+                        label = { Text("Harga Sewa / Hari (Rp)", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFF6366F1),
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -250,11 +250,11 @@ fun AdminDashboardScreen(
                     OutlinedTextField(
                         value = description,
                         onValueChange = { description = it },
-                        label = { Text("Deskripsi", color = Color.Gray) },
+                        label = { Text("Deskripsi", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFF6366F1),
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.White
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.fillMaxWidth(),
                         maxLines = 3
@@ -275,14 +275,42 @@ fun AdminDashboardScreen(
                             }
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6366F1))
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary)
                 ) {
-                    Text("Simpan", color = Color.White)
+                    Text("Simpan")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
-                    Text("Batal", color = Color.Gray)
+                    Text("Batal", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        )
+    }
+
+    // Modal Confirmation for Delete
+    productToDelete?.let { product ->
+        AlertDialog(
+            onDismissRequest = { productToDelete = null },
+            title = { Text("Konfirmasi Hapus", fontWeight = FontWeight.Bold) },
+            text = { Text("Apakah Anda yakin ingin menghapus produk '${product.title}'?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        productViewModel.deleteProduct(product)
+                        productToDelete = null
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError
+                    )
+                ) {
+                    Text("Hapus")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { productToDelete = null }) {
+                    Text("Batal", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         )

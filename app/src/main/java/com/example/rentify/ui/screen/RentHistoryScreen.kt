@@ -41,16 +41,16 @@ fun RentHistoryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Riwayat Sewa Saya", fontWeight = FontWeight.Bold, color = Color.White) },
+                title = { Text("Riwayat Sewa Saya", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali", tint = Color.White)
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali", tint = MaterialTheme.colorScheme.onSurface)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF1E1E2D))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface, titleContentColor = MaterialTheme.colorScheme.onSurface, actionIconContentColor = MaterialTheme.colorScheme.onSurface)
             )
         },
-        containerColor = Color(0xFF0F0F1A),
+        containerColor = MaterialTheme.colorScheme.background,
         modifier = modifier
     ) { paddingValues ->
         Box(
@@ -64,7 +64,7 @@ fun RentHistoryScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Belum ada riwayat peminjaman.", color = Color.Gray)
+                    Text("Belum ada riwayat peminjaman.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             } else {
                 LazyColumn(
@@ -72,7 +72,7 @@ fun RentHistoryScreen(
                 ) {
                     items(transactions, key = { it.id }) { tx ->
                         Card(
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF252538)),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                             shape = RoundedCornerShape(16.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -89,7 +89,7 @@ fun RentHistoryScreen(
                                     Text(
                                         text = dateFormat.format(Date(tx.rentDate)),
                                         fontSize = 11.sp,
-                                        color = Color.Gray
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
 
                                     Surface(
@@ -106,7 +106,7 @@ fun RentHistoryScreen(
                                     }
                                 }
 
-                                Divider(color = Color.DarkGray, modifier = Modifier.padding(vertical = 12.dp))
+                                HorizontalDivider(color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(vertical = 12.dp))
 
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -131,12 +131,12 @@ fun RentHistoryScreen(
                                             text = tx.productTitle,
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 16.sp,
-                                            color = Color.White
+                                            color = MaterialTheme.colorScheme.onSurface
                                         )
                                         Text(
                                             text = "Durasi sewa: ${tx.rentDays} Hari",
                                             fontSize = 13.sp,
-                                            color = Color.LightGray
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
 
@@ -146,13 +146,13 @@ fun RentHistoryScreen(
                                         Text(
                                             text = "Total Bayar",
                                             fontSize = 11.sp,
-                                            color = Color.Gray
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                         Text(
                                             text = numberFormat.format(tx.totalPrice),
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 16.sp,
-                                            color = Color(0xFF818CF8)
+                                            color = MaterialTheme.colorScheme.primary
                                         )
                                     }
                                 }

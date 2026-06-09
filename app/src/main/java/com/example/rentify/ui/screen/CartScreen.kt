@@ -44,19 +44,19 @@ fun CartScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Keranjang Sewa", fontWeight = FontWeight.Bold, color = Color.White) },
+                title = { Text("Keranjang Sewa", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali", tint = Color.White)
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Kembali", tint = MaterialTheme.colorScheme.onSurface)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF1E1E2D))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface, titleContentColor = MaterialTheme.colorScheme.onSurface, actionIconContentColor = MaterialTheme.colorScheme.onSurface)
             )
         },
         bottomBar = {
             if (cartItems.isNotEmpty()) {
                 Surface(
-                    color = Color(0xFF1E1E2D),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -68,10 +68,10 @@ fun CartScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("Total Peminjaman", color = Color.Gray, fontSize = 14.sp)
+                            Text("Total Peminjaman", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp)
                             Text(
                                 text = numberFormat.format(totalPayment),
-                                color = Color(0xFF818CF8),
+                                color = MaterialTheme.colorScheme.primary,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -85,19 +85,19 @@ fun CartScreen(
                                     onCheckoutSuccess()
                                 }
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6366F1)),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary, contentColor = MaterialTheme.colorScheme.onPrimary),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp)
                         ) {
-                            Text("Ajukan Peminjaman", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                            Text("Ajukan Peminjaman", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
             }
         },
-        containerColor = Color(0xFF0F0F1A),
+        containerColor = MaterialTheme.colorScheme.background,
         modifier = modifier
     ) { paddingValues ->
         Box(
@@ -111,7 +111,7 @@ fun CartScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Keranjang kamu kosong.", color = Color.Gray)
+                    Text("Keranjang kamu kosong.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             } else {
                 LazyColumn(
@@ -120,7 +120,7 @@ fun CartScreen(
                 ) {
                     items(cartItems, key = { it.cartId }) { item ->
                         Card(
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF252538)),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                             shape = RoundedCornerShape(16.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -140,21 +140,21 @@ fun CartScreen(
                                             text = item.productCategory,
                                             fontSize = 9.sp,
                                             fontWeight = FontWeight.Bold,
-                                            color = Color.White,
+                                            color = MaterialTheme.colorScheme.onSurface,
                                             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                         )
                                     }
-                                    Text(item.productTitle, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                                    Text(item.productTitle, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                                     Text(
                                         "${numberFormat.format(item.productPricePerDay)} / Hari",
                                         fontSize = 13.sp,
-                                        color = Color.LightGray
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                     Text(
                                         "Subtotal: ${numberFormat.format(item.productPricePerDay * item.rentDays)}",
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = Color(0xFF818CF8)
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                 }
 
@@ -181,7 +181,7 @@ fun CartScreen(
 
                                     Text(
                                         text = "${item.rentDays} Hari",
-                                        color = Color.White,
+                                        color = MaterialTheme.colorScheme.onSurface,
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -190,7 +190,7 @@ fun CartScreen(
                                         onClick = { rentViewModel.updateCartItemDays(item.cartId, item.rentDays + 1) },
                                         modifier = Modifier.background(Color(0xFF1E1E2D), shape = RoundedCornerShape(8.dp))
                                     ) {
-                                        Icon(Icons.Default.Add, contentDescription = "Tambah", tint = Color.White)
+                                        Icon(Icons.Default.Add, contentDescription = "Tambah", tint = MaterialTheme.colorScheme.onSurface)
                                     }
                                 }
                             }
